@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+</head>
+<body>
+    <!--header section-->
+    <header>
+        <h1>
+            Blackjack
+        </h1>
+        <nav>
+            <ul class="navbar-container">
+                <li>
+                    <a href="./instructions.html">Instructions</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--black jack boards section-->
+    <section class="newGame">
+        <button class="start"> Start Game</button>
+        <button class="scores">High Scores</button>
+    </section>
+    <section class="gameOver">
+        <h3 class="winState"></h3>
+        <button class="quitButton">Quit</button>
+        <h4>Record High Score:</h4>
+        <label For="name">Name: <input type="text" id="name" class="name"></label>
+        <button class="scoreButton">Record Score</button>
+    </section>
+    <section class="gameBoard">
+        <h4>Dealer's Cards:</h4>
+        <section class="dealerCards">
+
+        </section>
+        <h4>Your Cards:</h4>
+        <section class="playerCards">
+
+        </section>
+        <h4 class="playerHandScore">Score: </h4>
+
+        <h4>Pick a Move:</h4>
+        <button class="hitButton">Hit</button>
+        <button class="standButton">Stand</button>
+    </section>
+    <script src="./assets/js/Game.js"></script>
+</body>
+</html>
