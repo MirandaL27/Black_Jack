@@ -8,11 +8,17 @@ let winStateEl = document.querySelector(".winState");
 let playerHandScoreEl = document.querySelector(".playerHandScore");
 let dealerCardsEl  = document.querySelector(".dealerCards");
 let playerCardsEl = document.querySelector(".playerCards");
+let bettingEl = document.querySelector(".betting");
+let availChipsEl = document.querySelector(".availChips");
+let currentBetEl = document.querySelector(".currentBet");
+let chipsEl = document.querySelector(".chips");
+let betLableEl = document.querySelector(".betLable");
 
 bodyEl.addEventListener("click", handleButtonPresses);
 //displayNewGame();
 
 function updateBoard(hideDealerCard){
+    updateCurrentBet(Game.currentBet);
     //clear out the old player card elements first
     while (playerCardsEl.firstChild) {
         playerCardsEl.removeChild(playerCardsEl.lastChild);
@@ -42,6 +48,20 @@ function updateBoard(hideDealerCard){
     }
     
 }
+function updateBetLimit(newValue){
+    if(newValue > 500){
+        newValue = 500;
+    }
+    chipsEl.max = `${newValue}`;
+    betLableEl.textContent = `Chips (between 2 and ${newValue}):`
+}
+
+function updateAvailChips(newValue){
+    availChipsEl.textContent = newValue;
+}
+function updateCurrentBet(newValue){
+    currentBetEl.textContent = newValue;
+}
 
 function gameOverText(result){
     winStateEl.textContent = result;
@@ -51,21 +71,31 @@ function reset(){
     displayNewGame();
     //reset game object
     Game.resetGameState();
+    updateCurrentBet(Game.currentBet);
 }
 function displayNewGame(){
     newGameEl.style.removeProperty('display');
     gameOverEl.style.display = "none";
     gameBoardEl.style.display = "none";
+    bettingEl.style.display = "none";
 }
 function displayBoard(){
     gameBoardEl.style.removeProperty('display');
     gameOverEl.style.display = "none";
     newGameEl.style.display = "none";
+    bettingEl.style.display = "none";
 }
 function displayGameMove(){
     gameOverEl.style.removeProperty('display');
     newGameEl.style.display = "none";
-    //gameBoardEl.style.display = "none";
+    bettingEl.style.display = "none";
+    //gameBoardEl.style.display = "none";//commented out for testing purposes, make sure to put back when finished!
+}
+function displayBettingBoard(){
+    bettingEl.style.removeProperty("display");
+    gameOverEl.style.display = "none";
+    newGameEl.style.display = "none";
+    gameBoardEl.style.display = "none";
 }
 function scores(){
 
@@ -89,14 +119,20 @@ function handleButtonPresses(event){
         scores();
     }
     else if(event.target.className === "start"){
-        //start game
-        Game.startGame();
-        displayBoard();
-        updateBoard(true);
+        //go to betting screen
+        displayBettingBoard();
+        
     }
     else if(event.target.className === "scores"){
         //see high scores
         scores();
+    }
+    else if(event.target.className === "bet"){
+        //make a bet and start game
+        Game.setBet(parseInt(chipsEl.value));
+        Game.startGame();
+        displayBoard();
+        updateBoard(true);
     }
 
 }

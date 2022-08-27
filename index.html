@@ -33,6 +33,12 @@
         <label For="name">Name: <input type="text" id="name" class="name"></label>
         <button class="scoreButton">Record Score</button>
     </section>
+    <section class="betting" style="display:none">
+        <h3>Select an amount to bet:</h3>
+        <label class="betLable" for="chips">Chips (between 2 and 100):</label>
+        <input type="number" id="chips" name="chips" class="chips" min="2" max="100"> 
+        <button class="bet">Bet</button>
+    </section>
     <section class="gameBoard" style="display:none">
         <h4>Dealer's Cards:</h4>
         <section class="dealerCards">
@@ -47,6 +53,10 @@
         <h4>Pick a Move:</h4>
         <button class="hitButton">Hit</button>
         <button class="standButton">Stand</button>
+    </section>
+    <section class="chipsContainer">
+        <h4>Available chips: <span class="availChips">100</span></h4>
+        <h4>Current Bet: <span class="currentBet">0</span></h4>
     </section>
     <script src="./assets/js/Card.js"></script>
     <script src="./assets/js/Reshuffle.js"></script>

@@ -1,12 +1,15 @@
 //this file contains the object used to store the game's state
 
 let Game = {
-    numberOfDecks:Math.floor(Math.random()*(7-1) + 1), 
+    numberOfDecks:Math.floor(Math.random()*(7-1) + 1),
+    chips: 100,
+    currentBet: 0, 
     dealer: new Dealer(this.numberOfDecks),
     player: new Player(),
     resetGameState: function () {
         this.dealer= new Dealer(this.numberOfDecks);
         this.player= new Player();
+        this.currentBet = 0;
     },
     startGame: function () {
         //dealer gives player two cards face up
@@ -42,18 +45,22 @@ let Game = {
     endGame: function(){
         displayGameMove();
         if(this.playerWon() === "win"){
-            //print win
+            //print win, win bet
+            this.chips += this.currentBet;
             gameOverText("You won!");
         }
         else if(this.playerWon() === "tie"){
-            //print tie
+            //print tie, no impact on chip count
             gameOverText("You tied!");
         }
         else{
-            //print lose
+            //print lose, lose bet
+            this.chips -= this.currentBet;
             gameOverText("You lost!");
 
         }
+        updateAvailChips(Game.chips);
+        updateBetLimit(Game.chips);
     },
     playerWon: function(){
         let dealerScore = this.dealer.calculateHandValue();
@@ -73,6 +80,9 @@ let Game = {
         }
         return result;
     },
+    setBet: function(newValue) {
+        this.currentBet = newValue;
+    }
 };
 
 
