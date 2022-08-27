@@ -1,11 +1,11 @@
-import Deck from "./deck";
-import Player from "./Player"
+//import Deck from "./deck";
+//import Player from "./Player"
 
 class Dealer extends Player{
     deck;
     constructor(numberOfDecks){
         super();
-        deck = new Deck(numberOfDecks);
+        this.deck = new Deck(numberOfDecks);
     }
     dealCard(){
         return this.deck.removeCardFromTopOfDeck();
@@ -16,7 +16,7 @@ class Dealer extends Player{
         this.deck.cutDeck();
     }
     reShuffleDeck(){
-        if(this.deck.isnNextCardReshuffle()){
+        if(this.deck.isNextCardReShuffle()){
             //take reshuffle card off of deck.
             this.deck.removeCardFromTopOfDeck();
             //shuffles deck and adds reshuffle card back in.
@@ -25,4 +25,4 @@ class Dealer extends Player{
     }
 }
 
-export default Dealer;
+//export default Dealer;

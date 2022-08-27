@@ -9,12 +9,12 @@ class Card {
         this.value = 0;
         this.isReshuffle = false;
     }
-    constructor(suit, denomination) {
-        this.suit = suit;
-        this.denomination = denomination;
-        this.assignValue(denomination);
-        this.isReshuffle = false;
-    }
+    // constructor(suit, denomination) {
+    //     this.suit = suit;
+    //     this.denomination = denomination;
+    //     this.assignValue(denomination);
+    //     this.isReshuffle = false;
+    // }
     assignValue(denomination) {
         //assigns the value of the card based on the denomination
         // 2-10 = 2-10
@@ -71,4 +71,4 @@ class Card {
         this.assignValue(denomination);
     }
 }
-export default Card;
+//export default Card;

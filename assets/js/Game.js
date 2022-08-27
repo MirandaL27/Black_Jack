@@ -1,12 +1,13 @@
-import Player from "./Player";
-import Dealer from "./Dealer";
+//const Player = require("./Player");
+//const Dealer =  require("./Dealer");
 
 
 let Game = {
-    dealer: new Dealer(Math.floor(Math.random()*(7-1) + 1)),
+    numberOfDecks:Math.floor(Math.random()*(7-1) + 1), 
+    dealer: new Dealer(this.numberOfDecks),
     player: new Player(),
     resetGameState: function () {
-        this.dealer= new Dealer(Math.floor(Math.random()*(7-1) + 1));
+        this.dealer= new Dealer(this.numberOfDecks);
         this.player= new Player();
     },
     startGame: function () {
@@ -17,15 +18,41 @@ let Game = {
         this.dealer.addCardToHand(this.dealer.dealCard())
         this.dealer.addCardToHand(this.dealer.dealCard());
     },
-    endGame: function(){
-        if(this.playerWon === "win"){
-            //print win
+    move: function(move) {
+        //give the player another card if they hit
+        if(move === "hit"){
+            this.dealer.reShuffleDeck();
+            this.player.addCardToHand(this.dealer.dealCard());
+            updateBoard();
         }
-        else if(this.playerWon === "tie"){
+        if(move === "stand"){
+            //player's turn ends if they stand
+            this.dealerMove();
+        }
+        
+    },
+    dealerMove: function(){
+        //dealer must hit if they're card total is less than 17
+        while(this.dealer.calculateHandValue() < 17 && this.dealer.calculateHandValue() > 0){
+            this.dealer.addCardToHand(this.dealer.dealCard());
+            updateBoard();
+            //console.log("dealer drew a card");
+        }
+        this.endGame();
+    },
+    endGame: function(){
+        displayGameMove();
+        if(this.playerWon() === "win"){
+            //print win
+            gameOverText("You won!");
+        }
+        else if(this.playerWon() === "tie"){
             //print tie
+            gameOverText("You tied!");
         }
         else{
             //print lose
+            gameOverText("You lost!");
 
         }
     },
@@ -33,7 +60,7 @@ let Game = {
         let dealerScore = this.dealer.calculateHandValue();
         let playerScore = this.player.calculateHandValue();
         let result = "";
-        if(playerScore > 21){
+        if(playerScore < 0){
             result = "lose";
         }
         else if(playerScore === dealerScore){
@@ -49,27 +76,7 @@ let Game = {
     },
 };
 
-function handlePlayerMove(event){
-        if(event.target.className === "hitButton"){
-            //player hit
-        }
-        else if(event.target.className === "standButton"){
-            //player stand
-        }
-        else if(event.target.className === "quitButton"){
-            // quit game
-        }
-        else if(event.target.className === "scoreButton"){
-            //record score
-        }
-        else if(event.target.className === "start"){
-            //start game
-        }
-        else if(event.target.className === "scores"){
-            //see high scores
-        }
 
-}
 
 
 

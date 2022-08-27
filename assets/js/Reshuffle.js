@@ -1,12 +1,10 @@
-import Card from './Card'
+//import Card from './Card'
 
 class Reshuffle extends Card{
     constructor(){
-        this.suit = "";
-        this.denomination = "";
-        this.value = 0;
+        super();
         this.isReshuffle = true;
     }
 }
 
-export default Reshuffle;
+//export default Reshuffle;
