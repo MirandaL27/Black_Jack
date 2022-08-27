@@ -1,6 +1,3 @@
-//import Deck from "./deck";
-//import Player from "./Player"
-
 class Dealer extends Player{
     deck;
     constructor(numberOfDecks){
@@ -24,5 +21,3 @@ class Dealer extends Player{
         }
     }
 }
-
-//export default Dealer;

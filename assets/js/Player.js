@@ -16,7 +16,7 @@ class Player {
         if (total <= 21) {
             return total;
         }
-        let numberOfAces = this.hand.filter((elem) => elem.denomination === "ace");
+        let numberOfAces = this.hand.filter((elem) => elem.denomination === "ace").length;
         for (let i = 0; i < numberOfAces; i++) {
             total -= 10;
             if (total < 21) {
@@ -30,5 +30,3 @@ class Player {
         this.value = this.calculateHandValue();
     }
 }
-
-//export default Player;

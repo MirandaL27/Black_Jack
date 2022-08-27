@@ -1,6 +1,4 @@
-//const Player = require("./Player");
-//const Dealer =  require("./Dealer");
-
+//this file contains the object used to store the game's state
 
 let Game = {
     numberOfDecks:Math.floor(Math.random()*(7-1) + 1), 
@@ -23,7 +21,7 @@ let Game = {
         if(move === "hit"){
             this.dealer.reShuffleDeck();
             this.player.addCardToHand(this.dealer.dealCard());
-            updateBoard();
+            updateBoard(true);
         }
         if(move === "stand"){
             //player's turn ends if they stand
@@ -33,9 +31,10 @@ let Game = {
     },
     dealerMove: function(){
         //dealer must hit if they're card total is less than 17
+        updateBoard(false);
         while(this.dealer.calculateHandValue() < 17 && this.dealer.calculateHandValue() > 0){
             this.dealer.addCardToHand(this.dealer.dealCard());
-            updateBoard();
+            updateBoard(false);
             //console.log("dealer drew a card");
         }
         this.endGame();

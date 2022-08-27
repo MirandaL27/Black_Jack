@@ -1,5 +1,3 @@
-//import Card from "./Card";
-//import Reshuffle from "./Reshuffle";
 class Deck {
     cards;
     numberOfDecks;
@@ -68,4 +66,3 @@ class Deck {
         return (this.cards[0].isReshuffle);
     }
 }
-//export default Deck;

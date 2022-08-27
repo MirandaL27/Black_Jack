@@ -71,4 +71,3 @@ class Card {
         this.assignValue(denomination);
     }
 }
-//export default Card;

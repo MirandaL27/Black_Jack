@@ -10,9 +10,9 @@ let dealerCardsEl  = document.querySelector(".dealerCards");
 let playerCardsEl = document.querySelector(".playerCards");
 
 bodyEl.addEventListener("click", handleButtonPresses);
-displayNewGame();
+//displayNewGame();
 
-function updateBoard(){
+function updateBoard(hideDealerCard){
     //clear out the old player card elements first
     while (playerCardsEl.firstChild) {
         playerCardsEl.removeChild(playerCardsEl.lastChild);
@@ -32,7 +32,12 @@ function updateBoard(){
       //add elements for each of the dealer's cards.
     for(let i=0;i<Game.dealer.hand.length;i++){
         let newEl = document.createElement("p");
-        newEl.textContent = Game.dealer.hand[i].cardName;
+        if(hideDealerCard && i>0){
+            newEl.textContent = "???";
+        }
+        else{
+            newEl.textContent = Game.dealer.hand[i].cardName;
+        }
         dealerCardsEl.appendChild(newEl);
     }
     
@@ -60,7 +65,7 @@ function displayBoard(){
 function displayGameMove(){
     gameOverEl.style.removeProperty('display');
     newGameEl.style.display = "none";
-    gameBoardEl.style.display = "none";
+    //gameBoardEl.style.display = "none";
 }
 function scores(){
 
@@ -87,7 +92,7 @@ function handleButtonPresses(event){
         //start game
         Game.startGame();
         displayBoard();
-        updateBoard();
+        updateBoard(true);
     }
     else if(event.target.className === "scores"){
         //see high scores
