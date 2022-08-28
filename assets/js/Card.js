@@ -65,6 +65,9 @@ class Card {
     get cardName(){
         return `${this.denomination} of ${this.suit}`;
     }
+    get cardFileName(){
+        return `./assets/images/${this.denomination}_of_${this.suit}.png`;
+    }
     setCardProperties(suit, denomination){
         this.suit = suit;
         this.denomination = denomination;

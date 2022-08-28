@@ -25,9 +25,14 @@ function updateBoard(hideDealerCard){
       }
       //add elements for each of the player's cards.
     for(let i=0;i<Game.player.hand.length;i++){
+        let newDiv = document.createElement("div");
         let newEl = document.createElement("p");
         newEl.textContent = Game.player.hand[i].cardName;
-        playerCardsEl.appendChild(newEl);
+        let newImg = document.createElement("img");
+        newImg.src = Game.player.hand[i].cardFileName;
+        newDiv.appendChild(newImg);
+        newDiv.appendChild(newEl);
+        playerCardsEl.appendChild(newDiv);
     }
     //update the player's hand score
     playerHandScoreEl.textContent = `Score: ${Game.player.calculateHandValue()}`
@@ -37,14 +42,20 @@ function updateBoard(hideDealerCard){
       }
       //add elements for each of the dealer's cards.
     for(let i=0;i<Game.dealer.hand.length;i++){
+        let newDiv = document.createElement("div");
         let newEl = document.createElement("p");
+        let newImg = document.createElement("img");
         if(hideDealerCard && i>0){
             newEl.textContent = "???";
+            newImg.src = './assets/images/card_back.png';
         }
         else{
             newEl.textContent = Game.dealer.hand[i].cardName;
+            newImg.src = Game.player.hand[i].cardFileName;
         }
-        dealerCardsEl.appendChild(newEl);
+        newDiv.appendChild(newImg);
+        newDiv.appendChild(newEl);
+        dealerCardsEl.appendChild(newDiv);
     }
     
 }

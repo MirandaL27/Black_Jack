@@ -36,6 +36,7 @@ let Game = {
         //dealer must hit if they're card total is less than 17
         updateBoard(false);
         while(this.dealer.calculateHandValue() < 17 && this.dealer.calculateHandValue() > 0){
+            this.dealer.reShuffleDeck();
             this.dealer.addCardToHand(this.dealer.dealCard());
             updateBoard(false);
             //console.log("dealer drew a card");
@@ -45,9 +46,17 @@ let Game = {
     endGame: function(){
         displayGameMove();
         if(this.playerWon() === "win"){
-            //print win, win bet
-            this.chips += this.currentBet;
-            gameOverText("You won!");
+            //winnig state
+            if(this.isBlackJack()){
+                //check to see if player got blackjack, print blackjack, win 1.5*bet
+                this.chips += Math.floor((this.currentBet)*1.5);
+                gameOverText("You got blackjack!");
+            }
+            else{
+                //print win, win bet
+                this.chips += this.currentBet;
+                gameOverText("You won!");
+            }
         }
         else if(this.playerWon() === "tie"){
             //print tie, no impact on chip count
@@ -79,6 +88,12 @@ let Game = {
             result = "lose";
         }
         return result;
+    },
+    isBlackJack: function() {
+        if(this.player.calculateHandValue() === 21){
+            return true;
+        }
+        return false;
     },
     setBet: function(newValue) {
         this.currentBet = newValue;
