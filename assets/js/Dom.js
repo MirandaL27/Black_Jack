@@ -26,6 +26,7 @@ function updateBoard(hideDealerCard){
       //add elements for each of the player's cards.
     for(let i=0;i<Game.player.hand.length;i++){
         let newDiv = document.createElement("div");
+        newDiv.className="container-div";
         let newEl = document.createElement("p");
         newEl.textContent = Game.player.hand[i].cardName;
         let newImg = document.createElement("img");
@@ -43,6 +44,7 @@ function updateBoard(hideDealerCard){
       //add elements for each of the dealer's cards.
     for(let i=0;i<Game.dealer.hand.length;i++){
         let newDiv = document.createElement("div");
+        newDiv.className="container-div";
         let newEl = document.createElement("p");
         let newImg = document.createElement("img");
         if(hideDealerCard && i>0){
@@ -51,7 +53,7 @@ function updateBoard(hideDealerCard){
         }
         else{
             newEl.textContent = Game.dealer.hand[i].cardName;
-            newImg.src = Game.player.hand[i].cardFileName;
+            newImg.src = Game.dealer.hand[i].cardFileName;
         }
         newDiv.appendChild(newImg);
         newDiv.appendChild(newEl);
