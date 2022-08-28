@@ -14,6 +14,7 @@ body{
     text-decoration: none;
     border: none;
     color: white;
+    transition: color 0.5s;
 }
 
 .deStyleList{
@@ -42,4 +43,45 @@ img{
 .container-div{
     width: 20%;
     height: 20%;
+}
+
+a:hover{
+    color:blue
+}
+button:hover{
+    background-color: blue;
+    color: white;
+}
+button{
+    transition: color 0.5s, background-color 0.5s;
+}
+
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100px;
+}
+
+.padding-sm{
+    padding: 5px;
+}
+.padding-md{
+    padding: 10px;
+}
+.padding-lg{
+    padding: 15px;
+}
+
+.padding-vlg{
+    padding: 25px;
+}
+
+.margin-vlg{
+    margin: 25px;
+}
+
+.padding-bottom{
+    padding-bottom: 20px;
 }
