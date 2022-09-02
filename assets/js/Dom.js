@@ -13,6 +13,11 @@ let availChipsEl = document.querySelector(".availChips");
 let currentBetEl = document.querySelector(".currentBet");
 let chipsEl = document.querySelector(".chips");
 let betLableEl = document.querySelector(".betLable");
+let recordScoreEl = document.querySelector(".recordScore");
+let highScoresEl = document.querySelector(".highScores");
+let scoreContainerEl = document.querySelector(".score-container");
+let hitButtonEl = document.querySelector(".hitButton");
+let standButtonEl = document.querySelector(".standButton");
 
 bodyEl.addEventListener("click", handleButtonPresses);
 //displayNewGame();
@@ -36,7 +41,8 @@ function updateBoard(hideDealerCard){
         playerCardsEl.appendChild(newDiv);
     }
     //update the player's hand score
-    playerHandScoreEl.textContent = `Score: ${Game.player.calculateHandValue()}`
+    let score = Game.player.calculateHandValue();
+    playerHandScoreEl.textContent = `Score: ${(score > 0 ? score : "Bust")}`
     //clear out the old dealer card elements first
     while (dealerCardsEl.firstChild) {
         dealerCardsEl.removeChild(dealerCardsEl.lastChild);
@@ -76,6 +82,12 @@ function updateCurrentBet(newValue){
     currentBetEl.textContent = newValue;
 }
 
+function toggleMoveButtons(){
+    //enable/disable hit and stand buttons
+    hitButtonEl.disabled = !hitButtonEl.disabled;
+    standButtonEl.disabled = !standButtonEl.disabled;
+}
+
 function gameOverText(result){
     winStateEl.textContent = result;
 }
@@ -91,17 +103,23 @@ function displayNewGame(){
     gameOverEl.style.display = "none";
     gameBoardEl.style.display = "none";
     bettingEl.style.display = "none";
+    recordScoreEl.style.display = "none";
+    highScoresEl.style.display = "none";
 }
 function displayBoard(){
     gameBoardEl.style.removeProperty('display');
     gameOverEl.style.display = "none";
     newGameEl.style.display = "none";
     bettingEl.style.display = "none";
+    recordScoreEl.style.display = "none";
+    highScoresEl.style.display = "none";
 }
-function displayGameMove(){
+function displayGameOver(){
     gameOverEl.style.removeProperty('display');
     newGameEl.style.display = "none";
     bettingEl.style.display = "none";
+    recordScoreEl.style.display = "none";
+    highScoresEl.style.display = "none";
     //gameBoardEl.style.display = "none";//commented out for testing purposes, make sure to put back when finished!
 }
 function displayBettingBoard(){
@@ -109,10 +127,66 @@ function displayBettingBoard(){
     gameOverEl.style.display = "none";
     newGameEl.style.display = "none";
     gameBoardEl.style.display = "none";
+    recordScoreEl.style.display = "none";
+    highScoresEl.style.display = "none";
 }
-function scores(){
+function displayRecordScore(){
+    recordScoreEl.style.removeProperty("display");
+    bettingEl.style.display = "none";
+    gameOverEl.style.display = "none";
+    newGameEl.style.display = "none";
+    gameBoardEl.style.display = "none";
+    highScoresEl.style.display = "none";
+}
+function displayScores(){
+    highScoresEl.style.removeProperty("display");
+    recordScoreEl.style.display = "none";
+    bettingEl.style.display = "none";
+    gameOverEl.style.display = "none";
+    newGameEl.style.display = "none";
+    gameBoardEl.style.display = "none";
+}
 
+function scores(){
+    //clear out old high scores first
+    while (scoreContainerEl.firstChild) {
+        scoreContainerEl.removeChild(scoreContainerEl.lastChild);
+    }
+    let arr = JSON.parse(localStorage.getItem("blackJackScores"));
+    console.log(arr);
+    if(arr){
+        arr.forEach(elem => {
+            //loop through the array of high scores and display them
+            let newDiv = document.createElement("div");
+            newDiv.className = "score";
+            let pEl = document.createElement("p");
+            pEl.textContent = `${elem.name}: `;
+            let spanEl = document.createElement("span");
+            spanEl.textContent = elem.value;
+            pEl.appendChild(spanEl);
+            newDiv.appendChild(pEl);
+            scoreContainerEl.appendChild(newDiv)
+        });
+    }
 }
+function storeScore(){
+    //get array of scores that are already in localStorage
+    let arr = JSON.parse(localStorage.getItem("blackJackScores"));
+    if(!arr){
+        arr = [];
+    }
+    //get name from html and the score from game.chips
+    console.log(document.querySelector(".name").value, document.querySelector(".name"));
+    let obj = {name: document.querySelector(".name").value, value: Game.chips}
+    //add obj to end of arr
+    arr.push(obj);
+    //put the updated array back into local storage
+    localStorage.setItem("blackJackScores", JSON.stringify(arr));
+}
+function clearHighScores(){
+    localStorage.removeItem("blackJackScores");
+}
+
 
 function handleButtonPresses(event){
     if(event.target.className === "hitButton"){
@@ -126,10 +200,37 @@ function handleButtonPresses(event){
     else if(event.target.className === "quitButton"){
         // quit game (appears after game ends)
         reset();
+        Game.resetInitialChipAmount();
+        updateAvailChips(Game.chips);
+    }
+    else if(event.target.className === "goToRecord"){
+        //go to record high score screen and then quit
+        displayRecordScore();
+    }
+    else if(event.target.className === "continueButton"){
+        //place another bet
+        Game.resetGameState();
+        updateCurrentBet(Game.currentBet);
+        displayBettingBoard();
     }
     else if(event.target.className === "scoreButton"){
         //record score (appears after game ends)
+        storeScore();
+        displayScores();
         scores();
+        Game.resetGameState();
+        updateCurrentBet(Game.currentBet);
+        Game.resetInitialChipAmount();
+        updateAvailChips(Game.chips);
+    }
+    else if(event.target.className === "clearHighScores"){
+        //clear all high scores
+        clearHighScores();
+        scores();
+    }
+    else if(event.target.className === "backFromScores"){
+        //go back to new game screen from high score screen
+        displayNewGame();
     }
     else if(event.target.className === "start"){
         //go to betting screen
@@ -138,14 +239,18 @@ function handleButtonPresses(event){
     }
     else if(event.target.className === "scores"){
         //see high scores
+        displayScores();
         scores();
     }
     else if(event.target.className === "bet"){
         //make a bet and start game
         Game.setBet(parseInt(chipsEl.value));
         Game.startGame();
-        displayBoard();
-        updateBoard(true);
+        if(!Game.roundIsEnded){
+            displayBoard();
+            updateBoard(true);
+        }
+        
     }
 
 }

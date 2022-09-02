@@ -33,9 +33,21 @@
     <section class="gameOver padding-md" style="display:none">
         <h3 class="winState"></h3>
         <button class="quitButton">Quit</button>
+        <button class="goToRecord">Record Score and Quit</button>
+        <button class="continueButton">Make Another Bet</button>
+    </section>
+    <section class="recordScore padding-md" style="display:none">
+        <h3 class="recordScore">Record chip score:</h3>
         <h4>Record High Score:</h4>
         <label For="name">Name: <input type="text" id="name" class="name"></label>
         <button class="scoreButton">Record Score</button>
+    </section>
+    <section class="highScores padding-md" style="display:none">
+        <h3>High Scores:</h3>
+        <div class="score-container">
+        </div>
+        <button class="clearHighScores">Clear High Scores</button>
+        <button class="backFromScores">Back</button>
     </section>
     <section class="betting padding-md" style="display:none">
         <h3>Select an amount to bet:</h3>
