@@ -18,9 +18,10 @@ let highScoresEl = document.querySelector(".highScores");
 let scoreContainerEl = document.querySelector(".score-container");
 let hitButtonEl = document.querySelector(".hitButton");
 let standButtonEl = document.querySelector(".standButton");
+let goToRecordButtonEl = document.querySelector(".goToRecord");
+let makeAnotherBetButtonEl = document.querySelector(".continueButton");
 
 bodyEl.addEventListener("click", handleButtonPresses);
-//displayNewGame();
 
 function updateBoard(hideDealerCard){
     updateCurrentBet(Game.currentBet);
@@ -71,6 +72,7 @@ function updateBetLimit(newValue){
     if(newValue > 500){
         newValue = 500;
     }
+    chipsEl.value = '';
     chipsEl.max = `${newValue}`;
     betLableEl.textContent = `Chips (between 2 and ${newValue}):`
 }
@@ -82,10 +84,26 @@ function updateCurrentBet(newValue){
     currentBetEl.textContent = newValue;
 }
 
-function toggleMoveButtons(){
-    //enable/disable hit and stand buttons
-    hitButtonEl.disabled = !hitButtonEl.disabled;
-    standButtonEl.disabled = !standButtonEl.disabled;
+function disableMoveButtons(){
+    //disable hit and stand buttons
+    hitButtonEl.disabled = "true";
+    standButtonEl.disabled = "true";
+}
+function enableMoveButtons() {
+    //enable hit and stand buttons
+    hitButtonEl.removeAttribute("disabled");
+    standButtonEl.removeAttribute("disabled");
+}
+
+function disableEndGameButtons(){
+    //disable "Record Score and Quit" and "Make Another Bet" buttons 
+    goToRecordButtonEl.disabled = "true";
+    makeAnotherBetButtonEl.disabled = "true";
+}
+function enableEndGameButtons(){
+    //enable "Record Score and Quit" and "Make Another Bet" buttons 
+    goToRecordButtonEl.removeAttribute("disabled");
+    makeAnotherBetButtonEl.removeAttribute("disabled");
 }
 
 function gameOverText(result){
@@ -120,7 +138,7 @@ function displayGameOver(){
     bettingEl.style.display = "none";
     recordScoreEl.style.display = "none";
     highScoresEl.style.display = "none";
-    //gameBoardEl.style.display = "none";//commented out for testing purposes, make sure to put back when finished!
+    gameBoardEl.style.removeProperty("display");
 }
 function displayBettingBoard(){
     bettingEl.style.removeProperty("display");
@@ -187,6 +205,13 @@ function clearHighScores(){
     localStorage.removeItem("blackJackScores");
 }
 
+function validateBetAmount(value){
+    if(value < 2 || value > Game.chips){
+        return false;
+    }
+    return true;
+}
+
 
 function handleButtonPresses(event){
     if(event.target.className === "hitButton"){
@@ -202,6 +227,7 @@ function handleButtonPresses(event){
         reset();
         Game.resetInitialChipAmount();
         updateAvailChips(Game.chips);
+        updateBetLimit(Game.chips);
     }
     else if(event.target.className === "goToRecord"){
         //go to record high score screen and then quit
@@ -222,6 +248,7 @@ function handleButtonPresses(event){
         updateCurrentBet(Game.currentBet);
         Game.resetInitialChipAmount();
         updateAvailChips(Game.chips);
+        updateBetLimit(Game.chips);
     }
     else if(event.target.className === "clearHighScores"){
         //clear all high scores
@@ -244,13 +271,23 @@ function handleButtonPresses(event){
     }
     else if(event.target.className === "bet"){
         //make a bet and start game
-        Game.setBet(parseInt(chipsEl.value));
-        Game.startGame();
-        if(!Game.roundIsEnded){
-            displayBoard();
-            updateBoard(true);
+        //validate bet amount: must be between 2 and # of available chips
+        if(validateBetAmount(parseInt(chipsEl.value))){
+            Game.setBet(parseInt(chipsEl.value));
+            Game.startGame();
+            if(!Game.roundIsEnded){
+                displayBoard();
+                updateBoard(true);
+            }
+            else{
+                displayGameOver();
+                updateBoard(false);
+            }
         }
-        
+        else{
+            //bet amount is not valid, alert player
+            alert(`Bet amount must be between 2 and ${Game.chips}`);
+        }
     }
 
 }

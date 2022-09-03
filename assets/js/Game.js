@@ -16,6 +16,8 @@ let Game = {
         this.chips = 100;
     },
     startGame: function () {
+        enableMoveButtons();
+        enableEndGameButtons();
         //dealer gives player two cards face up
         this.player.addCardToHand(this.dealer.dealCard());
         this.player.addCardToHand(this.dealer.dealCard());
@@ -58,35 +60,39 @@ let Game = {
         this.endGame();
     },
     endGame: function () {
-        if (this.chips <= 0) {
-            //you've run out of chips, reset betting and go to new game screen
-        }
-        else {
-            displayGameOver();
-        }
-            console.log(this.playerWon());
-            if (this.playerWon() === "win") {
-                //winning state
-                if (this.isBlackJack()) {
-                    //check to see if player got blackjack, print blackjack, win 1.5*bet
-                    this.chips += Math.floor((this.currentBet) * 1.5);
-                    gameOverText("You got blackjack!");
-                }
-                else {
-                    //print win, win bet
-                    this.chips += this.currentBet;
-                    gameOverText("You won!");
-                }
-            }
-            else if (this.playerWon() === "tie") {
-                //print tie, no impact on chip count
-                gameOverText("You tied!");
+        displayGameOver();
+        //disable hit and stand buttons
+        disableMoveButtons();
+        console.log(this.playerWon());
+        if (this.playerWon() === "win") {
+            //winning state
+            if (this.isBlackJack()) {
+                //check to see if player got blackjack, print blackjack, win 1.5*bet
+                this.chips += Math.floor((this.currentBet) * 1.5);
+                gameOverText("You got blackjack!");
             }
             else {
-                //print lose, lose bet
-                this.chips -= this.currentBet;
+                //print win, win bet
+                this.chips += this.currentBet;
+                gameOverText("You won!");
+            }
+        }
+        else if (this.playerWon() === "tie") {
+            //print tie, no impact on chip count
+            gameOverText("You tied!");
+        }
+        else {
+            //print lose, lose bet
+            this.chips -= this.currentBet;
+            if (this.chips <= 0) {
+                //you've run out of chips to bet, disable goToRecordScore and MakeAnotherBet buttons
+                gameOverText("You've run out of chips!");
+                disableEndGameButtons();   
+            }
+            else{
                 gameOverText("You lost!");
             }
+        }
         updateAvailChips(Game.chips);
         updateBetLimit(Game.chips);
     },

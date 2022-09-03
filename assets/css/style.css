@@ -48,7 +48,7 @@ img{
 a:hover{
     color:blue
 }
-button:hover{
+button:hover:enabled{
     background-color: blue;
     color: white;
 }
