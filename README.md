@@ -29,4 +29,4 @@ The goal for this project was to create a version of the card game blackjack.
 * JavaScript
 
 ## Website
-Deployed Page: https://mirandal27.github.io/12-Tone-Matrix-Generator/
+Deployed Page: https://mirandal27.github.io/Black_Jack/
