@@ -28,5 +28,9 @@ The goal for this project was to create a version of the card game blackjack.
 * CSS
 * JavaScript
 
+## Compatibility
+* This application is not supported by the following web browsers: IE
+* Chrome, Firefox or Edge are the recommended browsers for this application.
+
 ## Website
 Deployed Page: https://mirandal27.github.io/Black_Jack/
