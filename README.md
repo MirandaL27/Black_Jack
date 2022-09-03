@@ -13,7 +13,7 @@ The goal for this project was to create a version of the card game blackjack.
 * Make your move by either clicking the "Hit" button or the "Stand" button. (Note: your turn will end once the "Stand" button is clicked)
 * On the results screen: 
     - Click the "Quit" button to start a new game and reset your chip count back to 100.
-    - Click the "Record Score and Quit" button to record your chip score and start a new game without resetting your chip count.
+    - Click the "Record Score and Quit" button to record your chip score and start a new game whilst setting your chip count back to 100.
     - Click the "Make another bet" button to start a new game without resetting your chip count.
     - Note: If you run out of chips to bet, you will have to quit and reset your chip count to play another game and you won't be able to record your score.
 
