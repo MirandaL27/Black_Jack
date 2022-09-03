@@ -240,7 +240,7 @@ function handleButtonPresses(event){
         displayBettingBoard();
     }
     else if(event.target.className === "scoreButton"){
-        //record score (appears after game ends)
+        //record score and then quit
         storeScore();
         displayScores();
         scores();
